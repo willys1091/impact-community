@@ -1,0 +1,109 @@
+.bg-cover {
+  background-size: cover;
+  background-position: center;
+}
+.video-bg {
+  position: absolute;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+}
+
+.dropzone-wrapper {
+  border: 2px dashed #91b0b3;
+  color: #92b0b3;
+  position: relative;
+  display: flex;
+  border-radius: .5rem;
+  /*height: 150px;*/
+}
+
+/*.dropzone-desc {
+    position: absolute;
+    margin: 0 auto;
+    left: 0;
+    right: 0;
+    text-align: center;
+    width: 40%;
+    top: 50px;
+    font-size: 16px;
+  }*/
+
+.dropzone-desc {
+  /* position: absolute; */
+  margin: 2rem auto;
+  left: 0;
+  right: 0;
+  text-align: center;
+  /* width: 40%; */
+  /* top: 50px; */
+  font-size: 16px;
+}
+
+.dropzone-desc i {
+  font-size: 4rem;
+}
+
+.dropzone,
+.dropzone:focus {
+  position: absolute;
+  outline: none !important;
+  width: 100%;
+  height: 100%;
+  cursor: pointer;
+  opacity: 0;
+}
+
+.dropzone-wrapper:hover,
+.dropzone-wrapper.dragover {
+  background: #ecf0f5;
+}
+
+.preview-zone {
+  text-align: center;
+}
+
+.preview-zone .box {
+  box-shadow: none;
+  border-radius: 0;
+  margin-bottom: 0;
+}
+
+.dropzone-wrapper.dragover {
+  background: black;
+}
+
+.thumbnail-file-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.thumbnail-file {
+  height: 100%;
+  width: 100%;
+  padding: .25rem;
+  background-color: #fff;
+  border: 1px solid #dee2e6;
+  border-radius: .25rem;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, .075);
+  font-size: 4rem;
+}
+
+#img-thumbnail-veno {
+  max-height: 400px;
+}
+
+.row.file {
+  display: -ms-flexbox;
+  display: flex;
+  -ms-flex-wrap: wrap;
+  flex-wrap: wrap;
+  margin: -7.5px;
+}
+.row.file .col, .row.file .col-1, .row.file .col-10, .row.file .col-11, .row.file .col-12, .row.file .col-2, .row.file .col-3, .row.file .col-4, .row.file .col-5, .row.file .col-6, .row.file .col-7, .row.file .col-8, .row.file .col-9, .row.file .col-auto, .row.file .col-lg, .row.file .col-lg-1, .row.file .col-lg-10, .row.file .col-lg-11, .row.file .col-lg-12, .row.file .col-lg-2, .row.file .col-lg-3, .row.file .col-lg-4, .row.file .col-lg-5, .row.file .col-lg-6, .row.file .col-lg-7, .row.file .col-lg-8, .row.file .col-lg-9, .row.file .col-lg-auto, .row.file .col-md, .row.file .col-md-1, .row.file .col-md-10, .row.file .col-md-11, .row.file .col-md-12, .row.file .col-md-2, .row.file .col-md-3, .row.file .col-md-4, .row.file .col-md-5, .row.file .col-md-6, .row.file .col-md-7, .row.file .col-md-8, .row.file .col-md-9, .row.file .col-md-auto, .row.file .col-sm, .row.file .col-sm-1, .row.file .col-sm-10, .row.file .col-sm-11, .row.file .col-sm-12, .row.file .col-sm-2, .row.file .col-sm-3, .row.file .col-sm-4, .row.file .col-sm-5, .row.file .col-sm-6, .row.file .col-sm-7, .row.file .col-sm-8, .row.file .col-sm-9, .row.file .col-sm-auto, .row.file .col-xl, .row.file .col-xl-1, .row.file .col-xl-10, .row.file .col-xl-11, .row.file .col-xl-12, .row.file .col-xl-2, .row.file .col-xl-3, .row.file .col-xl-4, .row.file .col-xl-5, .row.file .col-xl-6, .row.file .col-xl-7, .row.file .col-xl-8, .row.file .col-xl-9, .row.file .col-xl-auto {
+  position: relative;
+  width: 100%;
+  padding: 7.5px;
+}
