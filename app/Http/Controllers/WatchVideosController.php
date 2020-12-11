@@ -6,40 +6,19 @@ use App\series;
 use App\WatchVideo;
 use Illuminate\Http\Request;
 
-class WatchVideosController extends Controller
-{
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function index()
-    {
-        $series = series::all();
-        $video = WatchVideo::orderBy('created_at','desc')->get();
-        return view('admin.watch_video.index')
-        ->with('video',$video)
-        ->with('series',$series);
+class WatchVideosController extends Controller{
+    use \App\Traits\general;
+    public function index(){
+        // $data['series']= series::all();
+        $data['video'] = WatchVideo::orderBy('created_at','desc')->get();
+        return view('admin.watch_video.index',$data);
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //return "Raka";
-        $series = series::all();
-        return view('admin.watch_video.create')->with('series',$series);
+    public function create(){
+        $data['series'] = series::all();
+        return view('admin.watch_video.create',$data);
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
     public function store(Request $request)
     {
         $this->validate($request,
@@ -48,55 +27,27 @@ class WatchVideosController extends Controller
             ['url_video'=>'required'] ,
             ['url_web'=>'required']     
         );
-        //return $request;
         WatchVideo::create([
             'title' => $request->title,
             'series' => $request->series,
             'url_video' => $request->url_video,
             'url_web' => $request->url_web,
         ]);
-
-        return redirect()->route('admin.watchvideo.index')->with('status','Video Success to Added!');
+        return redirect('admin/watchvideo')->with('status','Video Success to Added!');
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  \App\WatchVideo  $watchVideo
-     * @return \Illuminate\Http\Response
-     */
     public function show(WatchVideo $watchVideo)
     {
         //
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\WatchVideo  $watchVideo
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($watchvideo, WatchVideo $watchVideo)
-    {
-        //$category = CategoryContent::all();
-        //$blog = Blog::where('id',$content)->first();
-        //$city = Blog::where('category','like','%8%')->get();
-        $series = series::all();
-        $watchvideo = WatchVideo::find($watchvideo);
-        return view('admin.watch_video.create')
-        ->with('series',$series)
-        ->with('watchvideo',$watchvideo);
+    public function edit($watchvideo, WatchVideo $watchVideo){
+        $data['series'] = series::all();
+        $data['watchvideo'] = WatchVideo::find($watchvideo);
+        return view('admin.watch_video.create',$data);
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\WatchVideo  $watchVideo
-     * @return \Illuminate\Http\Response
-     */
-    public function update($watchvideo,Request $request, WatchVideo $watchVideo)
-    {
+    public function update($watchvideo,Request $request, WatchVideo $watchVideo){
         $this->validate($request,
             ['title'=>'required'],
             ['series'=>'required'],
@@ -110,26 +61,11 @@ class WatchVideosController extends Controller
         $content->url_video = $request->url_video;
         $content->url_web = $request->url_web;
         $content->save();
-
-        /*WatchVideo::create([
-            'title' => $request->title,
-            'series' => $request->series,
-            'url_video' => $request->url_video,
-            'url_web' => $request->url_web,
-        ]);*/
-
-        return redirect()->route('admin.watchvideo.index')->with('status','Video Success to Update!');
+        return redirect('admin/watchvideo');
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  \App\WatchVideo  $watchVideo
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy($watchvideo,WatchVideo $watchVideo)
-    {
+    public function destroy($watchvideo,WatchVideo $watchVideo){
         WatchVideo::destroy($watchvideo);
-        return redirect()->route('admin.watchvideo.index')->with('status','Video Has Been Deleted!');
+        return redirect('admin/watchvideo')->with('status','Video Success to Update!');
     }
 }

@@ -13,8 +13,7 @@
         $(this).removeClass('dragover');
     });
     $('.dropzone-wrapper').on('drop', function (e) {
-        //e.preventDefault();
-        //e.stopPropagation();
+        
         $(this).removeClass('dragover');
     });
     $('.remove-preview').on('click', function () {
@@ -32,16 +31,13 @@
         var src = 'https://www.youtube.com/embed/' + link;
         var img_src = 'https://i.ytimg.com/vi/' + link + '/maxresdefault.jpg';
         $("#videothumbnail").attr('src', src);
-        //$("#imgthumbnail").attr('src', img_src);
         $('#FormYoutubeID').val(link);
         $.ajax({
             type: "GET",
             dataType: "json",
-            //data:{name: name},
             url: "https://www.googleapis.com/youtube/v3/videos?id=" + link + "&key=" + api_key +
                 "&fields=items(id,snippet(title),statistics)&part=snippet,statistics",
             success: function (data) {
-                //alert('Get Success');
                 console.log(data);
                 $("#FormTitle").val(data['items'][0]['snippet']['title']);
                 generate_URL();
@@ -58,7 +54,7 @@
         $('#mediaupload').on('submit', function (event) {
             event.preventDefault();
             $.ajax({
-                url: "{{route('admin.file.store')}}",
+                url: "{{url('admin/file/store')}}",
                 method: "POST",
                 data: new FormData(this),
                 dataType: 'JSON',
@@ -79,7 +75,6 @@
                         '</div>');
                     var width_element = $(".file-container").width();
                     $(".file-container").height(width_element);
-                    //$('#uploaded_image').attr('src',data.uploaded_image);
                 }
             })
         });
@@ -90,7 +85,7 @@
                 alert("no file");
             } else {
                 $.ajax({
-                    url: "{{route('admin.file.store')}}",
+                    url: "{{url('admin/file/store')}}",
                     method: "POST",
                     data: new FormData($('#mediaupload')[0]),
                     dataType: 'JSON',
@@ -113,7 +108,6 @@
                         var width_element = $(".file-container").width();
                         $(".file-container").height(width_element);
                         $('#mediaupload')[0].reset();
-                        //$('#uploaded_image').attr('src',data.uploaded_image);
                     }
                 })
             }
@@ -128,8 +122,6 @@
             var img_src = $(this).find('.thumbnail-file-img').attr('src');
             $('#img-thumbnail-veno').attr('src', img_src);
             $('#FormURL').val(url_venobox);
-            //thumbnail-file-img
-            //img-thumbnail-veno
         })
     });
     $(document).ready(function () {
@@ -146,15 +138,12 @@
 </script>
 <script>
     $('#exampleModal').on('show.bs.modal', function (event) {
-  var button = $(event.relatedTarget) // Button that triggered the modal
+  var button = $(event.relatedTarget)
   var data = button.data('whatever')
-  var data_type = button.data('type') // Extract info from data-* attributes
-  // If necessary, you could initiate an AJAX request here (and then do the updating in a callback).
-  // Update the modal's content. We'll use jQuery here, but you could use a data binding library or other methods instead.
+  var data_type = button.data('type') 
   var modal = $(this)
   modal.find('.modal-title').text('Detail File')
-  modal.find('.modal-body #mod_FormURL').val(location.protocol + "//"+document.domain +data['directory'])
-  //modal.find('.modal-body input').val(data['name_file'])
+  modal.find('.modal-body #mod_FormURL').val(data['directory'])
   if (data_type=='non-image') {
     modal.find('.modal-body #img-thumbnail-veno').attr('src', '/media/file.png')
   } else {
@@ -173,19 +162,16 @@
 @endsection
 @section('content-wrapper')
 <div class="content-wrapper">
-    <!-- Content Header (Page header) -->
     <div class="content-header">
         <div class="container-fluid">
             <div class="row mb-2">
                 <div class="col-sm-12">
                     <h1 class="m-0 text-dark">File Manager</h1>
                     <div class="alert" id="message" style="display: none"></div>
-                </div><!-- /.col -->
-            </div><!-- /.row -->
-        </div><!-- /.container-fluid -->
+                </div>
+            </div>
+        </div>
     </div>
-    <!-- /.content-header -->
-    <!-- Main content -->
     <section class="content">
         <div class="container-fluid">
             <div class="row">
@@ -194,39 +180,25 @@
                         <div class="card-header">
                             <h3 class="card-title">Quick Example</h3>
                         </div>
-                        <!-- /.card-header -->
-                        <!-- form start -->
-                        <form {{--action="{{route('admin.file.store')}}"--}} method="POST" id="mediaupload"
-                            enctype="multipart/form-data">
+                        
+                        <form method="POST" id="mediaupload" enctype="multipart/form-data">
                             @csrf
                             <div class="card-body">
                                 <div class="row">
                                     <div class="col-lg-12">
                                         <div class="form-group">
                                             <label for="exampleInputFile">File input</label>
-                                            {{--<div class="input-group">
-                                                <div class="custom-file">
-                                                    <input type="file" class="custom-file-input" id="exampleInputFile">
-                                                    <label class="custom-file-label" for="exampleInputFile">Choose
-                                                        file</label>
-                                                </div>
-                                                <div class="input-group-append">
-                                                    <span class="input-group-text" id="">Upload</span>
-                                                </div>
-                                            </div>--}}
                                             <div class="dropzone-wrapper">
                                                 <div class="dropzone-desc">
                                                     <i class="fa fa-file-o" aria-hidden="true"></i>
                                                     <p class="m-0">Choose an image file or drag it here.</p>
                                                 </div>
-                                                <input type="file" name="file" id="fileinput" class="dropzone"
-                                                    {{--multiple="" accept="image/*"--}}>
+                                                <input type="file" name="file" id="fileinput" class="dropzone">
                                             </div>
                                         </div>
                                     </div>
                                 </div>
                             </div>
-                            <!-- /.card-body -->
                         </form>
                     </div>
                 </div>
@@ -237,118 +209,44 @@
                         <div class="card-header">
                             <h3 class="card-title">Quick Example</h3>
                         </div>
-                        <!-- /.card-header -->
-                        <!-- form start -->
+                     
                         <div class="card-body">
                             
                             <div class="mt-3">
                                 <div class="row file" id="file-manager-container">
-                                    {{--@foreach ($file as $item)
-                                    <div class="col-lg-1 col-md-4">
-                                        <div class="file-container">
-                                            <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal" data-whatever="@mdo">Open modal for @mdo</button>
-                                            <a class="btn h-100 w-100 p-0 venobox" data-vbtype="inline"
-                                                href="#inline-content" data-title="Here your description"
-                                                id="{{$item->name_file}}" data-url="{{asset($item->directory)}}">
-                                                @php
-                                                $type_file = explode("/", $item->type_file);
-                                                @endphp
-                                                @if ($type_file[0]!='image')
-                                                <div class="thumbnail-file d-flex">
-                                                    <i class="fas fa-file align-self-center mx-auto"></i>
-                                                </div>
-                                                @else
-                                                <img src="{{asset($item->directory)}}"
-                                                    class="img-thumbnail thumbnail-file-img" alt="">
-                                                @endif
-                                            </a>
-                                        </div>
-                                    </div>
-                                    @endforeach--}}
                                     @foreach ($file as $item)
                                     <div class="col-lg-1 col-md-4">
                                         <div class="file-container">
                                             
-                                                @php
-                                                $type_file = explode("/", $item->type_file);
-                                                @endphp
-                                                @if ($type_file[0]!='image')
-                                                <button type="button" class="btn w-100 h-100 p-0" data-toggle="modal" data-target="#exampleModal" data-whatever="{{$item}}" data-type="non-image">
-                                                <img src="{{asset('media/file.png')}}"
-                                                    class="img-thumbnail thumbnail-file-img" alt="">
+                                                @php $type_file = explode("/", $item->type_file); @endphp
+                                                @if ($type_file[0]=='image')
+                                                    <button type="button" class="btn w-100 h-100 p-0" data-toggle="modal" data-target="#exampleModal" data-whatever="{{$item}}" data-type="image">
+                                                    <img src="{{asset($item->directory)}}" class="img-thumbnail thumbnail-file-img" alt="">
+                            
+                                                @elseif($type_file[0]=='video')
+                                                    <button type="button" class="btn w-100 h-100 p-0" data-toggle="modal" data-target="#exampleModal" data-whatever="{{$item}}" data-type="image">
+                                                    <video id="vid" width="100%" height="100%" autobuffer="false" autoplay="true" muted loop>
+                                                        <source src="{{asset($item->directory)}}" type="video/mp4">
+                                                    </video>   
                                                 @else
-                                                <button type="button" class="btn w-100 h-100 p-0" data-toggle="modal" data-target="#exampleModal" data-whatever="{{$item}}" data-type="image">
-                                                <img src="{{asset($item->directory)}}"
-                                                    class="img-thumbnail thumbnail-file-img" alt="">
+                                                <button type="button" class="btn w-100 h-100 p-0" data-toggle="modal" data-target="#exampleModal" data-whatever="{{$item}}" data-type="non-image">
+                                                    <img src="{{asset('media/file.png')}}" class="img-thumbnail thumbnail-file-img" alt="">
                                                 @endif
                                             </button>
-                                            {{--<a class="btn h-100 w-100 p-0 venobox" data-vbtype="inline"
-                                                href="#inline-content" data-title="Here your description"
-                                                id="{{$item->name_file}}" data-url="{{asset($item->directory)}}">
-                                                
-                                            </a>--}}
+                                           
                                         </div>
                                     </div>
                                     @endforeach
                                 </div>
                             </div>
                         </div>
-                        <!-- /.card-body -->
                     </div>
                 </div>
             </div>
-        </div><!-- /.container-fluid -->
-    </section>
-    <!-- /.content -->
-</div>
-{{--Veno Box Content--/}}
-<div id="inline-content" style="display:none;">
-    <div class="p-3 h-100">
-        <div class="row h-100">
-            <div class="col-lg-8 d-flex align-items-center">
-                <img src="" id="img-thumbnail-veno" class="img-fluid mx-auto" alt="">
-            </div>
-            <div class="col-lg-4">
-                <form method="POST">
-                    @csrf
-
-                    <div class="form-group">
-                        <label for="FormYoutubeLink">Youtube URL</label>
-                        <div class="input-group input-group">
-                            <input type="text" class="form-control" id="FormYoutubeLink"
-                                placeholder="Enter Youtube URL">
-                            <span class="input-group-append">
-                                <button type="button" class="btn btn-primary" id="GenerateLink">Generate</button>
-                            </span>
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <label for="FormYoutubeID">Youtube ID</label>
-                        <input readonly="" type="text" class="form-control" id="FormYoutubeID"
-                            placeholder="Enter Youtube ID" name="url_video">
-                    </div>
-                    <div class="form-group">
-                        <label for="FormTitle">Title</label>
-                        <input type="text" class="form-control" id="FormTitle" placeholder="Enter Title" name="title">
-                    </div>
-                    <div class="form-group">
-                        <label for="FormSeries">Series</label>
-                        <input type="text" class="form-control" id="FormSeries" placeholder="Enter Title" name="series">
-                    </div>
-                    <div class="form-group">
-                        <label for="FormURL">URL</label>
-                        <input type="text" class="form-control" id="FormURL" placeholder="Enter Title" name="url_web" readonly>
-                    </div>
-                    <button type="submit" class="btn btn-primary">Submit</button>
-                </form>
-
-
-
-            </div>
         </div>
-    </div>
-</div>--}}
-<!-- MODAL BS-->
+    </section>
+</div>
+
 <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-lg" role="document">
       <div class="modal-content">
@@ -387,12 +285,8 @@
                         </div>
                         <button type="submit" class="btn btn-primary">Submit</button>
                     </form>
-    
-    
-    
                 </div>
             </div>
-          
         </div>
       </div>
     </div>

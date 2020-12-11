@@ -37,7 +37,6 @@
                                 <tr>
                                     <th scope="col">No.</th>
                                     <th scope="col">Name</th>
-                                    {{--<th scope="col">Contain</th>--}}
                                     <th scope="col">Action</th>
                                 </tr>
                             </thead>
@@ -112,14 +111,8 @@
                     @enderror
                     </div>
                     <button type="submit" class="btn btn-success">Submit</button>
-
-
-
                 </form>
             </div>
-
-
         </div>
     </div>
-
     @endsection

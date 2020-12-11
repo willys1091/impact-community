@@ -2,27 +2,22 @@
 @section('title', 'Article - Arif Furniture')
 @section('content-wrapper')
 <div class="content-wrapper">
-    <!-- Content Header (Page header) -->
+
     <div class="content-header">
         <div class="container-fluid">
             <div class="row mb-2">
                 <div class="col-sm-12">
                     <h1 class="m-0 text-dark">Content</h1>
-                    <a href="{{route('admin.content.create')}}"><button type="button" class="btn btn-success"><i
-                                class="fa fa-plus-circle" aria-hidden="true"></i> Add
-                            Article</button></a>
+                    <a href="{{url('admin/content/create')}}"><button type="button" class="btn btn-success"><i class="fa fa-plus-circle" aria-hidden="true"></i> Add Article</button></a>
                     @if (session('status'))
-                    <div class="alert alert-success my-3" role="alert">
-                        {{ session('status') }}
-                    </div>
+                        <div class="alert alert-success my-3" role="alert">
+                            {{ session('status') }}
+                        </div>
                     @endif
-                </div><!-- /.col -->
-            </div><!-- /.row -->
-        </div><!-- /.container-fluid -->
+                </div>
+            </div>
+        </div>
     </div>
-    <!-- /.content-header -->
-
-    <!-- Main content -->
     <section class="content">
         <div class="container-fluid">
             <div class="row mt-2">
@@ -43,8 +38,7 @@
                                 <th scope="row">{{$loop->iteration}}</th>
                                 <td>{{$item->title}}</td>
                                 <td>{{$item->published}}</td>
-                                <td><a href="{{route('admin.content.edit',$item->id)}}"
-                                        class="badge badge-primary">Details</a></td>
+                                <td><a href="{{url('admin/content/'.$item->id.'/edit')}}" class="badge badge-primary">Details</a></td>
                             </tr>
                             @endforeach
 
@@ -53,10 +47,7 @@
                 </div>
 
             </div>
-        </div><!-- /.container-fluid -->
+        </div>
     </section>
-    <!-- /.content -->
 </div>
-
-
 @endsection
