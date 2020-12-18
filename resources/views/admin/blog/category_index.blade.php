@@ -1,16 +1,8 @@
 @extends('layout.main-admin')
 @section('additional_head')
-<!-- Select2 -->
-<link rel="stylesheet" href="/assets_admin/plugins/select2/css/select2.min.css">
-<link rel="stylesheet" href="/assets_admin/plugins/select2-bootstrap4-theme/select2-bootstrap4.min.css">
-
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.css" />
-
-<!-- Include Bootstrap Datepicker -->
-<link rel="stylesheet"
-    href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.8.0/css/bootstrap-datepicker.min.css" />
-
-<!-- include summernote css/js -->
+<link rel="stylesheet" href="{{asset('assets_admin/plugins/select2/css/select2.min.css')}}">
+<link rel="stylesheet" href="{{asset('assets_admin/plugins/select2-bootstrap4-theme/select2-bootstrap4.min.css')}}">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.8.0/css/bootstrap-datepicker.min.css" />
 <link href="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote.min.css" rel="stylesheet">
 <script src="https://cdn.ckeditor.com/4.14.1/standard/ckeditor.js"></script>
 <style>
@@ -24,17 +16,11 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.8.0/js/bootstrap-datepicker.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/bs-custom-file-input/dist/bs-custom-file-input.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote.min.js"></script>
-<!-- Select2 -->
-<script src="/assets_admin/plugins/select2/js/select2.full.min.js"></script>
+<script src="{{asset('assets_admin/plugins/select2/js/select2.full.min.js')}}"></script>
+<script src="{{asset('app.js')}}"></script>
 
 <script>
     $(document).ready(function () {
-        /*$('#summernote').summernote({
-            placeholder: 'Enter news content',
-            tabsize: 2,
-            height: 300
-        });*/
-
         $("#input-name").change(function () {
             var x = $("#input-name").val();
             var url = x.replace(/\ /g, '-').toLowerCase();
@@ -71,37 +57,27 @@
 </script>
 <script>
     $(function () {
-        //Initialize Select2 Elements
         $('.select2').select2()
 
-        //Initialize Select2 Elements
         $('.select2bs4').select2({
-            theme: 'bootstrap4'
-        })
+		theme: 'bootstrap4'
+    });
 
-        $(".select2").select2({
-            placeholder: "Select a state",
-            closeOnSelect: false,
-        });
-
-        //Datemask dd/mm/yyyy
         $('#datemask').inputmask('dd/mm/yyyy', {
             'placeholder': 'dd/mm/yyyy'
         })
-        //Datemask2 mm/dd/yyyy
+
         $('#datemask2').inputmask('mm/dd/yyyy', {
             'placeholder': 'mm/dd/yyyy'
         })
-        //Money Euro
+        
         $('[data-mask]').inputmask()
 
-        //Date range picker
         $('#reservationdate').datetimepicker({
             format: 'L'
         });
-        //Date range picker
         $('#reservation').daterangepicker()
-        //Date range picker with time picker
+
         $('#reservationtime').daterangepicker({
             timePicker: true,
             timePickerIncrement: 30,
@@ -247,7 +223,7 @@
         $('#mediaupload').on('submit', function (event) {
             event.preventDefault();
             $.ajax({
-                url: "{{route('admin.file.store')}}",
+                url: "{{url('admin/file/store')}}",
                 method: "POST",
                 data: new FormData(this),
                 dataType: 'JSON',
@@ -279,7 +255,7 @@
                 alert("no file");
             } else {
                 $.ajax({
-                    url: "{{route('admin.file.store')}}",
+                    url: "{{url('admin/file/store')}}",
                     method: "POST",
                     data: new FormData($('#mediaupload')[0]),
                     dataType: 'JSON',
@@ -314,8 +290,7 @@
     $(function () {
         $('.venobox').on('click', function (event) {
             id_venobox = $(this).attr("id");
-            //var img_src = $(this).find('.thumbnail-file-img').attr('src');
-            //alert( '{!!route('admin.categorycontent.store') !!}'+'/'+id_venobox);
+           
             data_cat.forEach(myFunction)
 
             function myFunction(item, index, arr) {
@@ -324,16 +299,9 @@
                     alert("OK");
                     console.log(arr[index]['name']);
                     $('input[name=updatecategory_input-name]').val(arr[index]['name']);
-                    //$('#updatecategory_description').val(arr[index]['description']);
-                    //$('#updatecategory_input-url').val(arr[index]['url']);
-                    //$('#updatecategory_input-parent_url').val(arr[index]['parent']);
                 }
             }
-
-            
-            $('#updatecategory').attr('action', '{!!route('admin.categorycontent.store') !!}'+'/'+id_venobox);
-            //thumbnail-file-img
-            //img-thumbnail-veno
+            $('#updatecategory').attr('action', '{!!url('admin/categorycontent/store') !!}'+'/'+id_venobox);
         })
     });
     $(document).ready(function () {
@@ -352,42 +320,25 @@
 @endphp
 @section('content-wrapper')
 <div class="content-wrapper">
-    <!-- Content Header (Page header) -->
     <div class="content-header">
         <div class="container-fluid">
             <div class="row mb-2">
                 <div class="col-sm-12">
                     <h1 class="m-0 text-dark">Category Content</h1>
-                    <a href="{{route('admin.content.create')}}"><button type="button" class="btn btn-success"><i
-                                class="fa fa-plus-circle" aria-hidden="true"></i> Add
-                            Article</button></a>
-                    @if (session('status'))
-                    <div class="alert alert-success my-3" role="alert">
-                        {{ session('status') }}
-                    </div>
-                    @endif
-                </div><!-- /.col -->
-            </div><!-- /.row -->
-        </div><!-- /.container-fluid -->
+                    {{-- <a href="{{url('admin/content/create')}}"><button type="button" class="btn btn-success"><i class="fa fa-plus-circle" aria-hidden="true"></i> AddArticle</button></a> --}}
+                    @if (session('status'))<div class="alert alert-success my-3" role="alert">{{ session('status') }}</div>@endif
+                </div>
+            </div>
+        </div>
     </div>
-    <!-- /.content-header -->
-    <!-- Main content -->
     <section class="content">
         <div class="container-fluid">
             <div class="row mt-2">
                 <div class="col-lg-4">
                     <div class="card card-primary">
-                        <div class="card-header">
-                            <h3 class="card-title">{{ $type == 'edit' ? 'Edit' : 'Add' }}</h3>
-                        </div>
-                        <!-- /.card-header -->
-                        <!-- form start -->
-                        <form class="p-3" method="post" action="{{ $type == 'edit' ? route('admin.categorycontent.update', $categorycontent->id) : route('admin.categorycontent.store') }}"
-                            enctype="multipart/form-data">
-                            @csrf
-                            @if ($type == 'edit')
-                            @method('put')
-                            @endif
+                        <div class="card-header"><h3 class="card-title">{{ $type == 'edit' ? 'Edit' : 'Add' }}</h3></div>
+                        <form class="p-3" method="post" action="{{ $type == 'edit' ? url('admin/categorycontent/'.$categorycontent->id) : url('admin/categorycontent') }}"enctype="multipart/form-data">@csrf
+                            @if ($type == 'edit') @method('put') @endif
                             <div class="form-group">
                                 <label>Name</label>
                                 <input type="text" class="form-control @error('name') is-invalid @enderror"
@@ -413,22 +364,22 @@
 
                             <div class="form-group">
                                 <label>Parent</label>
-                                <select class="form-control select2" style="width: 100%;" id="parent_url" name="parent">
+                                <select class="form-control select2" style="width: 100%;" id="parent_url" name="parent" data-placeholder="Select Parent">
                                     <option></option>
-                                    @foreach ($category as $item)
-                                    <option value="{{$item->id}}">{{$item->name}}</option>
+                                    @foreach ($category as $c)
+                                    <option value="{{$c->id}}" {{ $type == 'edit' ? $categorycontent->parent == $c->id?'selected':'' : old('parent_url') }}>{{$c->name}}</option>
                                     @endforeach
                                 </select>
                             </div>
                             <div class="form-group">
                                 <label>Type</label>
-                                <select class="form-control select2" style="width: 100%;" id="type" name="type">
+                                <select class="form-control select2" data-placeholder="Select Category" style="width: 100%;" name="type" id="select_category">
                                     <option></option>
-                                    <option value="info">Information</option>
-                                    <option value="quotes">Quotes</option>
-                                    <option value="job">Job</option>
-                                    <option value="city">City</option>
-                                    <option value="church">Church</option>
+                                    <option value="info" {{ $type == 'edit' ? $categorycontent->type == 'info'?'selected':'' : old('select_category') }}>Information</option>
+                                    <option value="quotes" {{ $type == 'edit' ? $categorycontent->type == 'quotes'?'selected':'' : old('select_category') }}>Quotes</option>
+                                    <option value="job" {{ $type == 'edit' ? $categorycontent->type == 'job'?'selected':'' : old('select_category') }}>Job</option>
+                                    <option value="city" {{ $type == 'edit' ? $categorycontent->type == 'city'?'selected':'' : old('select_category') }}>City</option>
+                                    <option value="church" {{ $type == 'edit' ? $categorycontent->type == 'church'?'selected':'' : old('select_category') }}>Church</option>
                                 </select>
                             </div>
                             <div class="form-group">
@@ -466,14 +417,9 @@
                                 <td>{{$item->type}}</td>
                                 <td>{{$item->url}}</td>
                                 <td>
-                                    {{--<a class="badge badge-primary venobox" data-vbtype="inline" href="#inline-content"
-                                        data-title="Here your description" id="{{$item->id}}">Edit</a>--}}
-
-                                    <a href="{{route('admin.categorycontent.edit', ['categorycontent'=>$item->id])}}"
-                                    class="badge badge-primary">Details</a>
-                                    <form action="{{route('admin.categorycontent.destroy', ['categorycontent'=>$item->id])}}" method="post">
-                                        @csrf
-                                        @method('delete')
+                                    <a href="{{url('admin/categorycontent/'.$item->id.'/edit')}}"class="badge badge-primary">Details</a>
+                                    <form action="{{url('admin/categorycontent/'.$item->id) }}" method="post">
+                                        @csrf @method('delete')
                                         <button type="submit" class="badge badge-danger border-0"><i class="fa fa-trash" aria-hidden="true"></i> Delete</button>
                                     </form>
                                 </td>
@@ -483,63 +429,8 @@
                     </table>
                 </div>
             </div>
-        </div><!-- /.container-fluid -->
+        </div>
     </section>
-    <!-- /.content -->
 </div>
-{{--Veno Box Content--}}
-<div id="inline-content" style="display:none;">
-    <div class="p-3 h-100">
-        <form class="p-3" method="post" action="{{route('admin.categorycontent.store') }}"
-            enctype="multipart/form-data" id="updatecategory">
-            @csrf
-            @method('put')
-            <div class="form-group">
-                <label>Name</label>
-                <input type="text" class="form-control @error('name') is-invalid @enderror" id="updatecategory_input-name"
-                    aria-describedby="" placeholder="Enter name" name="updatecategory_input-name" value="">
-                @error('name')
-                <div class="invalid-feedback">
-                    {{$message}}
-                </div>
-                @enderror
-            </div>
-            <div class="form-group">
-                <label>Description</label>
-                <textarea class="form-control @error('description') is-invalid @enderror" name="description"
-                    id="updatecategory_input-description" placeholder="Enter description" rows="3">{{old('description')}}</textarea>
-                @error('description')
-                <div class="invalid-feedback">
-                    {{$message}}
-                </div>
-                @enderror
-            </div>
 
-            <div class="form-group">
-                <label>Parent</label>
-                <select class="form-control select2" style="width: 100%;" id="updatecategory_parent_url" name="parent">
-                    <option></option>
-                    <option>Alabama</option>
-                    <option>Alaska</option>
-                    <option>California</option>
-                    <option>Delaware</option>
-                    <option>Tennessee</option>
-                    <option>Texas</option>
-                    <option>Washington</option>
-                </select>
-            </div>
-            <div class="form-group">
-                <label>URL</label>
-                <input type="text" class="form-control @error('url') is-invalid @enderror" id="updatecategory_inputurl"
-                    aria-describedby="" placeholder="Enter URL" name="url" value="{{old('url')}}">
-                @error('url')
-                <div class="invalid-feedback">
-                    {{$message}}
-                </div>
-                @enderror
-            </div>
-            <button type="submit" class="btn btn-success">Submit</button>
-        </form>
-    </div>
-</div>
 @endsection

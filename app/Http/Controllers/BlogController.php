@@ -6,68 +6,29 @@ use App\Blog;
 use App\CategoryContent;
 use Illuminate\Http\Request;
 
-class BlogController extends Controller
-{
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function index(Request $request)
-    {
-        
-        /*if ($request->session()->has('username')) {
-            $blog = Blog::all();
-            return view('admin.blog.index', compact('blog'));
-        }else {
-            return redirect('/ia-admin');
-        }*/
-        
-        $blog = Blog::all();
-        return view('admin.blog.index', compact('blog'));
+class BlogController extends Controller{
+    public function index(Request $request){
+        $data['blog'] = Blog::all();
+        return view('admin.blog.index',$data);
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create(Request $request)
-    {
-        $category = CategoryContent::all();
-        $city = Blog::where('category','like','%8%')->get();
-        return view('admin.blog.create')
-        ->with('category',$category)
-        ->with('city',$city);
+    public function create(Request $request){
+       
+        $data['category'] = CategoryContent::all();
+        $data['city'] = Blog::where('category','like','%8%')->get();
+        return view('admin.blog.create',$data);
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(Request $request)
-    {
-        //return $request;
+    public function store(Request $request){
+        ini_set('post_max_size', '600M');
+        ini_set('upload_max_filesize','200M');
+        ini_set("memory_limit", "100M");
         $this->validate($request, [
 			'title' => 'required',
             'published' => 'required',
 			'url' => 'required',
         ]);
          
-        /*$image_name="default.jpeg";
-        if ($request->file('file')) {
-            $file = $request->file('file');
-            $tujuan_upload = 'img/blog/thumbnail';
-            $image_name= time().'.'.$file->getClientOriginalExtension();
-            
-          // upload file
-          $file->move($tujuan_upload,$image_name);
-          //$pic_name=$file->getClientOriginalName();
-        }
-        $image_url = asset('img/blog/thumbnail/'.$image_name);*/
-
 
         $content = new Blog();
 
@@ -89,57 +50,24 @@ class BlogController extends Controller
         
         $content->category = json_encode($request->category);
 		$content->save();
-
-
-        /*    Blog::create([
-                'title' => $request->title,
-                'published' => $request->published,
-                'url' => $request->url,
-                'content' => $request->description_text,
-                'thumbnail_img' => $image_name
-            ]);*/
         
 
-
-        return redirect()->route('admin.content.index')->with('status','Article Success to Added!');
+        return redirect('admin/content')->with('status','Article Success to Added!');
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  \App\Blog  $blog
-     * @return \Illuminate\Http\Response
-     */
-    public function show(Blog $blog,Request $request)
-    {
+    public function show(Blog $blog,Request $request){
         return view('admin.blog.show', compact('blog'));
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Blog  $blog
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($content,Blog $blog,Request $request)
-    {
-        $category = CategoryContent::all();
-        $blog = Blog::where('id',$content)->first();
-        $city = Blog::where('category','like','%8%')->get();
-        return view('admin.blog.create', compact('blog'))
-        ->with('category',$category)
-        ->with('city',$city);
+   
+    public function edit($content,Blog $blog,Request $request){
+        $data['category'] = CategoryContent::all();
+        $data['blog'] = Blog::where('id',$content)->first();
+        $data['city'] = Blog::where('category','like','%8%')->get();
+        return view('admin.blog.create', $data);
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Blog  $blog
-     * @return \Illuminate\Http\Response
-     */
-    public function update($content,Request $request, Blog $blog)
-    {
+    public function update($content,Request $request, Blog $blog){
         $blog = Blog::where('id',$content)->first();
         $this->validate($request, [
 			'title' => 'required',
@@ -147,20 +75,6 @@ class BlogController extends Controller
 			'url' => 'required',
         ]);
 
-        /*$image_name="default.jpeg";
-        if ($request->file('file') && $request->pic_indicator == 'yes') {
-            $file = $request->file('file');
-            $tujuan_upload = 'img/blog/thumbnail';
-            $image_name= time().'.'.$file->getClientOriginalExtension();
-            $image_url = asset('img/blog/thumbnail/'.$image_name);
-          // upload file
-          $file->move($tujuan_upload,$image_name);
-          //$pic_name=$file->getClientOriginalName();
-          Blog::where('id',$blog->id)
-          ->update([
-              'thumbnail_img' => $image_url,
-          ]);
-        }*/
         $content = Blog::find($blog['id']);
 
         $content->title = $request->title;
@@ -177,24 +91,16 @@ class BlogController extends Controller
         } else {
             $content->parent = null;
         }
-        //$content->content = $request->description_text;
-        //$content->thumbnail_img = $image_url;
+        
         $content->category = json_encode($request->category);
         $content->save();
         
-        return redirect()->route('admin.content.index')->with('status','Article Success to Update!');
+        return redirect('admin/content')->with('status','Article Success to Update!');
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  \App\Blog  $blog
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy($content,Blog $blog)
-    {
+    public function destroy($content,Blog $blog){
         $blog = Blog::where('id',$content)->first();
         Blog::destroy($blog['id']);
-        return redirect()->route('admin.content.index')->with('status','Blog Has Been Deleted!');
+        return redirect('admin/content')->with('status','Blog Has Been Deleted!');
     }
 }

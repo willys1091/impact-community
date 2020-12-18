@@ -1,13 +1,7 @@
 @extends('layout.main-admin')
 @section('title', 'Edit Article')
 @section('additional_head')
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.css" />
-
-<!-- Include Bootstrap Datepicker -->
-<link rel="stylesheet"
-    href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.8.0/css/bootstrap-datepicker.min.css" />
-
-<!-- include summernote css/js -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.8.0/css/bootstrap-datepicker.min.css" />
 <link href="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote.min.css" rel="stylesheet">
 <script src="https://cdn.ckeditor.com/4.14.1/standard/ckeditor.js"></script>
 <style>
@@ -21,16 +15,14 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.8.0/js/bootstrap-datepicker.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/bs-custom-file-input/dist/bs-custom-file-input.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote.min.js"></script>
-
-
 <script>
     $(document).ready(function () {
-        /*$('#summernote').summernote({
-            placeholder: 'Enter news content',
-            tabsize: 2,
-            height: 300
-        });*/
+        bsCustomFileInput.init();
 
+$('.select2').select2();
+        $('.select2bs4').select2({
+		theme: 'bootstrap4'
+	});
         $("#input-title").change(function () {
             var x = $("#input-title").val();
             var url = x.replace(/\ /g, '-').toLowerCase();
@@ -72,7 +64,7 @@
         <div class="container py-3">
             <div class="d-flex flex-row justify-content-between">
                 <h1>Edit Blog</h1>
-                <form action="{{route('admin.blog.destroy', $blog->id)}}" method="post">
+                <form action="{{url('admin.blog.destroy', $blog->id)}}" method="post">
                     @csrf
                     @method('delete')
                     <button type="submit" class="btn btn-danger"><i class="fa fa-trash" aria-hidden="true"></i> Delete

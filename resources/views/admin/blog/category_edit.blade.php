@@ -1,16 +1,9 @@
 @extends('layout.main-admin')
 @section('additional_head')
-<!-- Select2 -->
-<link rel="stylesheet" href="/assets_admin/plugins/select2/css/select2.min.css">
-<link rel="stylesheet" href="/assets_admin/plugins/select2-bootstrap4-theme/select2-bootstrap4.min.css">
-
+<link rel="stylesheet" href="{{asset('assets_admin/plugins/select2/css/select2.min.css')}}">
+<link rel="stylesheet" href="{{asset('assets_admin/plugins/select2-bootstrap4-theme/select2-bootstrap4.min.css')}}">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.css" />
-
-<!-- Include Bootstrap Datepicker -->
-<link rel="stylesheet"
-    href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.8.0/css/bootstrap-datepicker.min.css" />
-
-<!-- include summernote css/js -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.8.0/css/bootstrap-datepicker.min.css" />
 <link href="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote.min.css" rel="stylesheet">
 <script src="https://cdn.ckeditor.com/4.14.1/standard/ckeditor.js"></script>
 <style>
@@ -29,12 +22,6 @@
 
 <script>
     $(document).ready(function () {
-        /*$('#summernote').summernote({
-            placeholder: 'Enter news content',
-            tabsize: 2,
-            height: 300
-        });*/
-
         $("#input-name").change(function () {
             var x = $("#input-name").val();
             var url = x.replace(/\ /g, '-').toLowerCase();
@@ -71,10 +58,8 @@
 </script>
 <script>
     $(function () {
-        //Initialize Select2 Elements
         $('.select2').select2()
 
-        //Initialize Select2 Elements
         $('.select2bs4').select2({
             theme: 'bootstrap4'
         })
@@ -84,24 +69,22 @@
             closeOnSelect: false,
         });
 
-        //Datemask dd/mm/yyyy
         $('#datemask').inputmask('dd/mm/yyyy', {
             'placeholder': 'dd/mm/yyyy'
         })
-        //Datemask2 mm/dd/yyyy
+
         $('#datemask2').inputmask('mm/dd/yyyy', {
             'placeholder': 'mm/dd/yyyy'
         })
-        //Money Euro
+
         $('[data-mask]').inputmask()
 
-        //Date range picker
         $('#reservationdate').datetimepicker({
             format: 'L'
         });
-        //Date range picker
+
         $('#reservation').daterangepicker()
-        //Date range picker with time picker
+
         $('#reservationtime').daterangepicker({
             timePicker: true,
             timePickerIncrement: 30,
@@ -109,7 +92,7 @@
                 format: 'MM/DD/YYYY hh:mm A'
             }
         })
-        //Date range as a button
+
         $('#daterange-btn').daterangepicker({
                 ranges: {
                     'Today': [moment(), moment()],
@@ -129,17 +112,14 @@
             }
         )
 
-        //Timepicker
         $('#timepicker').datetimepicker({
             format: 'LT'
         })
 
-        //Bootstrap Duallistbox
         $('.duallistbox').bootstrapDualListbox()
 
-        //Colorpicker
         $('.my-colorpicker1').colorpicker()
-        //color picker with addon
+
         $('.my-colorpicker2').colorpicker()
 
         $('.my-colorpicker2').on('colorpickerChange', function (event) {
@@ -151,29 +131,27 @@
         });
 
     })
-    // BS-Stepper Init
+
     document.addEventListener('DOMContentLoaded', function () {
         window.stepper = new Stepper(document.querySelector('.bs-stepper'))
     });
 
-    // DropzoneJS Demo Code Start
     Dropzone.autoDiscover = false;
 
-    // Get the template HTML and remove it from the doumenthe template HTML and remove it from the doument
     var previewNode = document.querySelector("#template");
     previewNode.id = "";
     var previewTemplate = previewNode.parentNode.innerHTML;
     previewNode.parentNode.removeChild(previewNode);
 
-    var myDropzone = new Dropzone(document.body, { // Make the whole body a dropzone
-        url: "/target-url", // Set the url
+    var myDropzone = new Dropzone(document.body, { 
+        url: "/target-url", 
         thumbnailWidth: 80,
         thumbnailHeight: 80,
         parallelUploads: 20,
         previewTemplate: previewTemplate,
-        autoQueue: false, // Make sure the files aren't queued until manually added
-        previewsContainer: "#previews", // Define the container to display the previews
-        clickable: ".fileinput-button" // Define the element that should be used as click trigger to select files.
+        autoQueue: false, 
+        previewsContainer: "#previews", 
+        clickable: ".fileinput-button" 
     });
 
     myDropzone.on("addedfile", function (file) {

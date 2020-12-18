@@ -5,90 +5,65 @@ namespace App\Http\Controllers;
 use App\Admin;
 use Illuminate\Http\Request;
 
-class AdminsController extends Controller
-{
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function index()
-    {
+class AdminsController extends Controller{
+    public function index(){
+        $data['admin'] = admin::all();
+        return view('admin.admin.index',$data);
+    }
+
+    public function create(){
         //
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
+    public function store(Request $request){
+        $admin = new Admin();
+        $admin->name = $request->name;
+        $admin->username = $request->username;
+        $admin->email = $request->email;
+        $admin->password = $request->password;
+		$admin->save();
+
+        return redirect('admin/admin')->with('status','Admin Success to Added!');
+    }
+
+    public function show(Admin $admin){
         //
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(Request $request)
-    {
-        //
+    public function edit($id){
+        $data['admin'] = Admin::all();
+        $data['admins'] = Admin::where('id',$id)->first();
+        return view('admin/admin/index',$data);
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  \App\Admin  $admin
-     * @return \Illuminate\Http\Response
-     */
-    public function show(Admin $admin)
-    {
-        //
+    public function update(Request $request,$id){
+        $this->validate($request, [
+			'name' => 'required',
+            'username' => 'required',
+            'email' => 'required',
+        ]);
+
+        $data = Admin::findorfail($id);
+        $data->name = $request->name;
+        $data->username = $request->username;
+        $data->email = $request->email;
+        $request->password<>''? $data->password = $request->password :"";
+		$data->save();
+
+        return redirect('admin/admin')->with('status','Admin Success to updated!');
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Admin  $admin
-     * @return \Illuminate\Http\Response
-     */
-    public function edit(Admin $admin)
-    {
-        //
+    public function destroy($id){
+        Admin::destroy($id);
+        return redirect('admin/admin')->with('status','Admin Has Been Deleted!');
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Admin  $admin
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, Admin $admin)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  \App\Admin  $admin
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy(Admin $admin)
-    {
-        //
-    }
     public function edit_account(){
         $account = Admin::first();
         return view('admin.edit_account')->with('account',$account);
     }
-    public function edit_account_post(Request $request){
-        
 
+    public function edit_account_post(Request $request){
         $this->validate($request, [
 			'username' => 'required',
             'name' => 'required',
@@ -96,21 +71,8 @@ class AdminsController extends Controller
         ]);
         if ($request->password != null && $request->password != $request->retype_password) {
             return redirect()->back()->with('retype_password_error', 'Password not Same!')->withInput();
-             //back()->withInput()->with(['retype_password_error' => 'Password not same!']);;
         }
-         
-        /*$image_name="default.jpeg";
-        if ($request->file('file')) {
-            $file = $request->file('file');
-            $tujuan_upload = 'img/blog/thumbnail';
-            $image_name= time().'.'.$file->getClientOriginalExtension();
-            
-          // upload file
-          $file->move($tujuan_upload,$image_name);
-          //$pic_name=$file->getClientOriginalName();
-        }
-        $image_url = asset('img/blog/thumbnail/'.$image_name);*/
-
+        
         $ID = Admin::first()->id;
         $content = Admin::find($ID);
 
@@ -121,18 +83,6 @@ class AdminsController extends Controller
         }
         $content->save();
         $request->session()->put('name',$request->name);
-
-
-        /*    Blog::create([
-                'title' => $request->title,
-                'published' => $request->published,
-                'url' => $request->url,
-                'content' => $request->description_text,
-                'thumbnail_img' => $image_name
-            ]);*/
-        
-
-
         return redirect()->route('admin.edit_account')->with('status','Account Success Edited!');
     }
 }

@@ -1,26 +1,17 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <title>Login to Admin</title>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <!--===============================================================================================-->
     <link rel="shortcut icon" href="{{asset('/assets/img/Logo_only.png')}}" type="image/x-icon">
-    <link rel="stylesheet" type="text/css" href="https://pusc.or.id/PUSC/css/util-login.css">
-    <!--===============================================================================================-->
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
-        integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
-
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
-    <link
-        href="https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300;0,400;0,600;0,700;0,800;1,300;1,400;1,600;1,700;1,800&display=swap"
-        rel="stylesheet">
+    <link rel="stylesheet" href="{{asset('vendor/fontawesome/css/all.min.css')}}">
+    <link rel="stylesheet" href="https://pusc.or.id/PUSC/css/util-login.css">
+    <link rel="stylesheet" href="{{asset('vendor/bootstrap-4.1/bootstrap.min.css')}}">
+    <link rel="stylesheet" href="{{asset('vendor/bootstrap-3.3.7/css/bootstrap.min.css')}}">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300;0,400;0,600;0,700;0,800;1,300;1,400;1,600;1,700;1,800&display=swap">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
-        integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous">
-    </script>
+    <script src="{{asset('vendor/bootstrap-4.1/bootstrap.min.js')}}"></script>
 </head>
 <style>
     .login-title-box {
@@ -150,69 +141,45 @@
         height: 100%;
         top: 0;
         left: 0;
-        /*background-color: rgba(0, 0, 0, 0.25);*/
     }
-
 </style>
 
 <body>
     <div class="limiter">
-        <div class="container-login100"
-            style="background-color:  rgb(226, 226, 226);">
+        <div class="container-login100" style="background-color:  rgb(226, 226, 226);">
             <div class="login-form">
                 @if (session('status'))
-                <div class="alert alert-danger alert-dismissible fade show" role="alert">
-                    <strong>{{ session('status') }}</strong>
-                    <button type="button" class="close" data-dismiss="alert" aria-label="Close" style="top: -7px;>
-						<span aria-hidden=" true">&times;</span>
-                    </button>
-                </div>
-                @endif
-                <form action="{{route('admin.loginPost')}}" method="post">
-                    {{ csrf_field() }}
-                    
-                    <div class="login-title-box ">
-                        
-                        <h2 class="text-center">Admin Panel</h2>
+                    <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                        <strong>{{ session('status') }}</strong>
+                        <button type="button" class="close" data-dismiss="alert" aria-label="Close" style="top: -7px;">
+                            <span aria-hidden=" true">&times;</span>
+                        </button>
                     </div>
+                @endif
+
+                <form action="{{url('admin/login')}}" method="post">@csrf
+                    <div class="login-title-box "><h2 class="text-center">Admin Panel</h2></div>
                     <div class="login-padding d-flex flex-column">
-                        <img src="{{asset('/assets/img/Logo_only.png')}}" class="img-fluid mx-auto mb-3" alt="">
+                        <img src="{{asset('assets/img/Logo_only.png')}}" class="img-fluid mx-auto mb-3" alt="">
                         <div class="form-group">
                             <div class="input-group">
                                 <span class="input-group-addon"><i class="fa fa-user"></i></span>
-                                <input type="text" class="form-control" name="username" placeholder="Username"
-                                    required="required">
+                                <input type="text" class="form-control" name="username" placeholder="Username" required="required">
                             </div>
                         </div>
                         <div class="form-group">
                             <div class="input-group">
                                 <span class="input-group-addon"><i class="fa fa-lock"></i></span>
-                                <input type="password" class="form-control" name="password" placeholder="Password"
-                                    required="required">
+                                <input type="password" class="form-control" name="password" placeholder="Password" required="required">
                             </div>
                         </div>
-                        {{--<div class="form-group">
-                            <div class="form-check">
-                                <input class="form-check-input" type="checkbox" name="remember" id="remember" {{ old('remember') ? 'checked' : '' }}>
-                            <label class="form-check-label ml-5" for="remember">
-                                {{ __('Remember Me') }}
-                            </label>
-                            </div>
-                            
-                        </div>--}}
-                        <div class="form-group">
-                            <button type="submit" class="btn btn-primary login-btn btn-block">LOGIN</button>
-                        </div>
+                        <div class="form-group"><button type="submit" class="btn btn-primary login-btn btn-block">LOGIN</button></div>
                     </div>
-
+                </form>
             </div>
         </div>
     </div>
-
-
     <div id="dropDownSelect1"></div>
-
-
 </body>
 </head>
 

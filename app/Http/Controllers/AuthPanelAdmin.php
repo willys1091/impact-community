@@ -5,7 +5,6 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
-//use App\admin;
 use App\Admin;
 use App\User;
 use Auth;
@@ -43,30 +42,27 @@ class AuthPanelAdmin extends Controller
     public function AuthAdmin(Request $request){
         $this->validate($request,
             ['username'=>'required'],
-            ['password'=>'required']     
+            ['password'=>'required']
         );
 
         $user = $request->input('username');
-        $pass = $request->input('password');        
+        $pass = $request->input('password');
 
         $account = Admin::where('username',$user)->first();
-        
+
         if($account==null){
-            return back()->with('status','Login gagal');     
+            return back()->with('status','Login gagal');
         } else{
             $account = $account->where('password',$pass)->first();
             if ($account!=null) {
                 $request->session()->put('username',$user);
                 $request->session()->put('name',$account->name);
-
-                return redirect()->route('admin.index');
+                $request->session()->put('email',$account->email);
+                return redirect('admin');
             } else{
-                return back()->with('status','Password Salah'); 
+                return back()->with('status','Password Salah');
             }
-            
-            
         }
-        
     }
 
     public function postLogin(Request $request){
@@ -80,7 +76,7 @@ class AuthPanelAdmin extends Controller
         if (Auth::guard('admin')->attempt($credentials)) {
             //return "oraa";
             return redirect()->intended('/afi-admin');
-        } 
+        }
         else{
             return "Salah";
         }
