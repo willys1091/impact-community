@@ -34,10 +34,14 @@ class PageController extends Controller{
         $data['tmp'] = $request['data'];
         $data = $this->prepareData();
         $data['watchData'] = $this->watchData();
+<<<<<<< HEAD
         $data['quote'] = Blog::where('category', '["5"]')->first();
         $data['top_quote'] = Content::where('category','=', '["10"]')->orderBy('created_at','desc')->first();
         $data['middle_quote'] = Content::where('category','=', '["11"]')->orderBy('created_at','desc')->first();
         $data['bottom_quote'] = Content::where('category','=', '["12"]')->orderBy('created_at','desc')->first();
+=======
+        $data['top_quote'] = Content::where([['category','=', '["5"]'],['title','=','top quote']])->first();
+>>>>>>> a46b4dc7d3e875557d491c868b1334531855e280
         $data['schedule'] = Schedule::first();
         $data['article']=Content::where('category', 'like', '%' . '3' . '%')->orderBy('created_at','desc')->first();
         $data['news']=Content::where('category', 'like', '%' . '4' . '%')->orderBy('created_at','desc')->first();

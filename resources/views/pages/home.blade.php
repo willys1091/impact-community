@@ -141,6 +141,7 @@
                         <div class="col-md-12">
                             <div class="hero__caption">
                                 @php
+<<<<<<< HEAD
                                 //$title = $quote->content;
                                 //$text=str_ireplace('<p>','',$title);
                                     //$text=str_ireplace('</p>','',$text);
@@ -148,6 +149,16 @@
                                 {!! $middle_quote->content !!}
                       
                                 
+=======
+                                // $title = $quote->content;
+                                // $text=str_ireplace('<p>','',$title);
+                                //     $text=str_ireplace('</p>','',$text);
+                                @endphp
+                                {{-- <h3>{{$text}}</h3>
+                                <h2 data-animation="fadeInUp" data-delay=".6s" class="text-justify">
+                                    <div class="hanging-quote">“</div>{{$quote->title}}” --}}
+                                </h2>
+>>>>>>> a46b4dc7d3e875557d491c868b1334531855e280
                                 <h3>Share this quote //</h3>
                                 {{-- <h5><a target="_blank"
                                         href="https://www.facebook.com/sharer/sharer.php?u=http%3A%2F%2F119.8.160.93%2F&quote={{$quote->title}}">
@@ -249,8 +260,17 @@
                     <div class="row">
                         <div class="col-md-12">
                             <div class="hero__caption">
+<<<<<<< HEAD
                                 {!! $bottom_quote->content !!}
                                
+=======
+                                <h2 data-animation="fadeInUp" data-delay=".6s" class="text-justify">
+                                    Subscribe to Impact Community Indonesia to study through the scriptures with us.
+                                </h2>
+                                <h3>Follow Along //</h3>
+                                <h5><a href="#"> <i class="fa fa-facebook mr-3" aria-hidden="true"></i></a><a
+                                        href="#"><i class="fa fa-twitter" aria-hidden="true"></i></a></h5>
+>>>>>>> a46b4dc7d3e875557d491c868b1334531855e280
 
                             </div>
                         </div>
